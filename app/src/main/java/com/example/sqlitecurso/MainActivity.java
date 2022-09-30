@@ -19,30 +19,32 @@ public class MainActivity extends AppCompatActivity {
             //criando banco de dados
             SQLiteDatabase banco = openOrCreateDatabase("app",MODE_PRIVATE,null);
             //criando tabela
-            banco.execSQL("CREATE TABLE IF NOT EXISTS pessoas (id INT PRIMARY KEY AUTOINCREMENT,nome VARCHAR, idade INT(3))");
+            banco.execSQL("CREATE TABLE IF NOT EXISTS pessoas2 (id INTEGER PRIMARY KEY AUTOINCREMENT,nome VARCHAR, idade INT(3))");
 
             //inserindo valores no banco
 
+            //String  delete = "DELETE FROM pessoas2";
+            //banco.execSQL(delete);
+
             /*
-            banco.execSQL("INSERT INTO pessoas(nome, idade) VALUES ('Rafael',20)");
-            banco.execSQL("INSERT INTO pessoas(nome, idade) VALUES ('Matheus',25)");
-            banco.execSQL("INSERT INTO pessoas(nome, idade) VALUES ('Alexandre',26)");
-             */
+            banco.execSQL("INSERT INTO pessoas2(nome, idade) VALUES ('Rafael',20)");
+            banco.execSQL("INSERT INTO pessoas2(nome, idade) VALUES ('Matheus',25)");
+            banco.execSQL("INSERT INTO pessoas2(nome, idade) VALUES ('Alexandre',26)");
+            */
 
             //atualizando registro
             /*
-            String update = "UPDATE pessoas set idade = 14 WHERE nome = 'Matheus'";
+            String update = "UPDATE pessoas2 set idade = 14 WHERE nome = 'Matheus'";
             banco.execSQL(update);
             */
 
-            String  delete = "DELETE FROM pessoa where nome = 'Alexandre'";
-
 
             //recuperando valores do banco de dados
-            String consulta = "SELECT * FROM pessoas";
+            String consulta = "SELECT id,nome,idade FROM   pessoas2";
             Cursor cursor = banco.rawQuery(consulta,null);
 
             //retornando o index das colunas com base nos nomes
+            int indiceId = cursor.getColumnIndex("id");
             int indiceNome = cursor.getColumnIndex("nome");
             int indiceIdade = cursor.getColumnIndex("idade");
 
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             cursor.moveToFirst();
             while (cursor != null) {
                 //imprimindo os resultados
-                Log.i("RESULTADO - ",cursor.getString(indiceNome)+ " / " +cursor.getString(indiceIdade));
+                Log.i("RESULTADO - ",cursor.getString(indiceId)+" / "+cursor.getString(indiceNome)+ " / " +cursor.getString(indiceIdade));
                 //avanca para a prixima linha
                 cursor.moveToNext();
             }
