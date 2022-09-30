@@ -11,29 +11,14 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         criaOuIniciaTable();
-
-        try {
-
-            //inserindo valores no banco
-
-            //String  delete = "DELETE FROM pessoas2";
-            //banco.execSQL(delete);
-
-            //atualizando registro
-            /*
-            String update = "UPDATE pessoas2 set idade = 14 WHERE nome = 'Matheus'";
-            banco.execSQL(update);
-            */
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }//0pao
     }
 
     public void adicionarValor (View view) {
@@ -44,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
         banco.execSQL("INSERT INTO pessoas2(nome, idade) VALUES ('"+editText.getText().toString()+"',10)");
 
         buscaDados();
+
+        editText.setText("");
     }
 
     private void criaOuIniciaTable () {
+        SQLiteDatabase banco = openOrCreateDatabase("app",MODE_PRIVATE,null);
 
         try {
-            SQLiteDatabase banco = openOrCreateDatabase("app",MODE_PRIVATE,null);
-
             banco.execSQL("CREATE TABLE IF NOT EXISTS pessoas2 (id INTEGER PRIMARY KEY AUTOINCREMENT,nome VARCHAR, idade INT(3))");
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,7 +70,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void removeDado (int index) {
+    private void removeValor (int index) {
+        SQLiteDatabase banco = openOrCreateDatabase("app",MODE_PRIVATE,null);
+        banco.execSQL("DELETE FROM pessoas2 WHERE id = "+ index);
+    }
 
+    private void atualizaValor () {
+        //atualizando registro
+            /*
+            String update = "UPDATE pessoas2 set idade = 14 WHERE nome = 'Matheus'";
+            banco.execSQL(update);
+            */
     }
 }
