@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,23 +16,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
+        criaOuIniciaTable();
 
-            //criando banco de dados
-            SQLiteDatabase banco = openOrCreateDatabase("app",MODE_PRIVATE,null);
-            //criando tabela
-            banco.execSQL("CREATE TABLE IF NOT EXISTS pessoas2 (id INTEGER PRIMARY KEY AUTOINCREMENT,nome VARCHAR, idade INT(3))");
+        try {
 
             //inserindo valores no banco
 
             //String  delete = "DELETE FROM pessoas2";
             //banco.execSQL(delete);
-
-            /*
-            banco.execSQL("INSERT INTO pessoas2(nome, idade) VALUES ('Rafael',20)");
-            banco.execSQL("INSERT INTO pessoas2(nome, idade) VALUES ('Matheus',25)");
-            banco.execSQL("INSERT INTO pessoas2(nome, idade) VALUES ('Alexandre',26)");
-            */
 
             //atualizando registro
             /*
@@ -38,9 +31,37 @@ public class MainActivity extends AppCompatActivity {
             banco.execSQL(update);
             */
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }//0pao
+    }
 
-            //recuperando valores do banco de dados
-            String consulta = "SELECT id,nome,idade FROM   pessoas2";
+    public void adicionarValor (View view) {
+        SQLiteDatabase banco = openOrCreateDatabase("app",MODE_PRIVATE,null);
+
+        EditText editText = findViewById(R.id.inputText);
+
+        banco.execSQL("INSERT INTO pessoas2(nome, idade) VALUES ('"+editText.getText().toString()+"',10)");
+
+        buscaDados();
+    }
+
+    private void criaOuIniciaTable () {
+
+        try {
+            SQLiteDatabase banco = openOrCreateDatabase("app",MODE_PRIVATE,null);
+
+            banco.execSQL("CREATE TABLE IF NOT EXISTS pessoas2 (id INTEGER PRIMARY KEY AUTOINCREMENT,nome VARCHAR, idade INT(3))");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void buscaDados () {
+        try {
+            SQLiteDatabase banco = openOrCreateDatabase("app",MODE_PRIVATE,null);
+
+            String consulta = "SELECT id,nome,idade FROM pessoas2";
             Cursor cursor = banco.rawQuery(consulta,null);
 
             //retornando o index das colunas com base nos nomes
@@ -58,11 +79,12 @@ public class MainActivity extends AppCompatActivity {
                 //avanca para a prixima linha
                 cursor.moveToNext();
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void removeDado (int index) {
 
     }
 }
