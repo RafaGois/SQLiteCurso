@@ -81,4 +81,8 @@ public class Adicao extends AppCompatActivity {
             banco.execSQL(update);
             */
     }
+
+    public void volta (View view) {
+        finish();
+    }
 }
